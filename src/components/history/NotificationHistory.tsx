@@ -1,0 +1,56 @@
+import React from 'react';
+import { AlertEvent } from '@/hooks/useWearable';
+import { AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+
+type NotificationHistoryProps = {
+  alerts: AlertEvent[];
+};
+
+export function NotificationHistory({ alerts }: NotificationHistoryProps) {
+  if (alerts.length === 0) {
+    return (
+      <div className="text-center py-12 bg-white rounded-xl border border-gray-100 shadow-sm">
+        <div className="bg-green-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <CheckCircle className="h-8 w-8 text-green-500" />
+        </div>
+        <h3 className="text-lg font-medium text-gray-900">All Clear!</h3>
+        <p className="text-gray-500 mt-1">No stress events detected yet. Keep up the good work!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="p-6 border-b border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-900">Recent Alerts & Recommendations</h3>
+      </div>
+      <div className="divide-y divide-gray-100">
+        {alerts.map((alert) => (
+          <div key={alert.id} className="p-6 hover:bg-gray-50 transition-colors">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 bg-amber-100 p-2 rounded-lg text-amber-600">
+                <AlertTriangle className="h-6 w-6" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="font-medium text-gray-900">{alert.message}</h4>
+                  <div className="flex items-center text-xs text-gray-500">
+                    <Clock className="h-3 w-3 mr-1" />
+                    {alert.timestamp}
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Detected at: <span className="font-mono bg-gray-100 px-1 py-0.5 rounded text-xs">HRV: {alert.metrics.hrv}ms</span> <span className="font-mono bg-gray-100 px-1 py-0.5 rounded text-xs ml-2">EDA: {alert.metrics.eda}µS</span>
+                </p>
+                <div className="bg-indigo-50 border border-indigo-100 rounded-md p-3">
+                  <p className="text-sm font-medium text-indigo-900 mb-1">Recommendation:</p>
+                  <p className="text-sm text-indigo-700">{alert.recommendation}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

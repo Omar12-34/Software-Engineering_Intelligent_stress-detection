@@ -1,8 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stress Detection System
+
+This project is a Next.js application for a Stress Detection System. It includes a dashboard, metric cards, notification history, alerting settings, and integrates with a wearable device.
 
 ## Getting Started
 
 First, run the development server:
+
 
 ```bash
 npm run dev
