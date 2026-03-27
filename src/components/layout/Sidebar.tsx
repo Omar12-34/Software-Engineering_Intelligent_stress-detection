@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, History, FileText, Settings, Activity } from 'lucide-react';
+import { LayoutDashboard, History, FileText, Settings, Activity, LogOut } from 'lucide-react';
 import { clsx } from 'clsx';
 
 type Tab = 'dashboard' | 'log' | 'history' | 'settings';
@@ -7,9 +7,10 @@ type Tab = 'dashboard' | 'log' | 'history' | 'settings';
 type SidebarProps = {
   activeTab: Tab;
   setActiveTab: (tab: Tab) => void;
+  onLogout?: () => void;
 };
 
-export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
+export function Sidebar({ activeTab, setActiveTab, onLogout }: SidebarProps) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'log', label: 'Log Context Event', icon: FileText },
@@ -46,7 +47,7 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         })}
       </nav>
 
-      <div className="p-4 border-t border-slate-800">
+      <div className="p-4 border-t border-slate-800 space-y-3">
         <div className="bg-slate-800 rounded-lg p-3">
           <p className="text-xs text-slate-400 mb-1">System Status</p>
           <div className="flex items-center gap-2 text-sm text-green-400 font-medium">
@@ -57,6 +58,15 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             Online
           </div>
         </div>
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-red-600/20 hover:text-red-400 transition-colors text-sm font-medium"
+          >
+            <LogOut className="h-5 w-5" />
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

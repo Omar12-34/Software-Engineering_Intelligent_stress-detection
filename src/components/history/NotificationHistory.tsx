@@ -1,12 +1,13 @@
 import React from 'react';
 import { AlertEvent } from '@/hooks/useWearable';
-import { AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, Trash2 } from 'lucide-react';
 
 type NotificationHistoryProps = {
   alerts: AlertEvent[];
+  onClearAll?: () => void;
 };
 
-export function NotificationHistory({ alerts }: NotificationHistoryProps) {
+export function NotificationHistory({ alerts, onClearAll }: NotificationHistoryProps) {
   if (alerts.length === 0) {
     return (
       <div className="text-center py-12 bg-white rounded-xl border border-gray-100 shadow-sm">
@@ -21,14 +22,30 @@ export function NotificationHistory({ alerts }: NotificationHistoryProps) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-6 border-b border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900">Recent Alerts & Recommendations</h3>
+      <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">Recent Alerts & Recommendations</h3>
+          <p className="text-sm text-gray-500">{alerts.length} notification{alerts.length !== 1 ? 's' : ''}</p>
+        </div>
+        {onClearAll && (
+          <button
+            onClick={onClearAll}
+            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          >
+            <Trash2 className="h-4 w-4" />
+            Clear All
+          </button>
+        )}
       </div>
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
         {alerts.map((alert) => (
           <div key={alert.id} className="p-6 hover:bg-gray-50 transition-colors">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 bg-amber-100 p-2 rounded-lg text-amber-600">
+              <div className={`flex-shrink-0 p-2 rounded-lg ${
+                alert.stressLevel === 'HIGH' 
+                  ? 'bg-red-100 text-red-600' 
+                  : 'bg-amber-100 text-amber-600'
+              }`}>
                 <AlertTriangle className="h-6 w-6" />
               </div>
               <div className="flex-1">

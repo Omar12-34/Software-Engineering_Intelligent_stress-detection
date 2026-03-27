@@ -8,7 +8,7 @@ type HeaderProps = {
 
 export function Header({ studentName, isConnected }: HeaderProps) {
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-10 shadow-sm ml-64">
+    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-10 shadow-sm">
       <div className="flex items-center gap-4">
         <h2 className="text-lg font-semibold text-gray-800">
           Welcome back, {studentName}

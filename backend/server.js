@@ -2,11 +2,16 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const { startSimulation } = require('./services/simulationService');
 
 dotenv.config();
 
 // 🔥 Uncomment ONLY when MongoDB installed
-connectDB();
+connectDB().then(() => {
+  // Data simulation in backend is now disabled as per requirements.
+  // We rely on the frontend data flowing into the database via /api/stress/analyze
+  console.log("Database connection ready.");
+}).catch(err => console.error("Could not connect to DB:", err));
 
 const app = express();
 
@@ -16,6 +21,8 @@ app.use(express.json());
 // Routes
 app.use('/api/data', require('./routes/data'));
 app.use('/api/stress', require('./routes/stress'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/notifications', require('./routes/notifications'));
 
 // Test route
 app.get('/', (req, res) => {
